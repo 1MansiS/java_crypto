@@ -13,7 +13,9 @@ import java.security.NoSuchAlgorithmException ;
 import java.lang.IllegalArgumentException ;
 import java.security.GeneralSecurityException ;
 
-
+/*
+        This class shows how to use PBKDF2 based password generation.
+*/
 public class SecurePBKDFUsage {
 
         public static String PDKDF_ALGORITHM = "PBKDF2WithHmacSHA512" ;
@@ -25,8 +27,6 @@ public class SecurePBKDFUsage {
 
                 // String are immutatble, so there is no way to change/nullify/modify its content after use. So always, collect and store security sensitive information in a char array instead. 
                 char[] PASSWORD = args[0].toCharArray() ; 
-
-                               
 
                 String hashedPassword = null ;
                 try {  
