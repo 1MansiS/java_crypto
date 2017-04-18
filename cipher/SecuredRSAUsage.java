@@ -12,7 +12,7 @@ public class SecuredRSAUsage {
         static int RSA_KEY_LENGTH = 4096;
         static String ALGORITHM_NAME = "RSA" ;
         static String PADDING_SCHEME = "OAEPWITHSHA-512ANDMGF1PADDING" ;
-        static String MODE_OF_OPERATION_WHICH_MEANS_NONE = "ECB" ;
+        static String MODE_OF_OPERATION = "ECB" ; // This essentially means none behind the scene
 
         public static void main(String args[]) {
                 String shortMessage = args[0] ;
@@ -40,7 +40,7 @@ public class SecuredRSAUsage {
 
         public static String rsaEncrypt(String message, Key publicKey) throws Exception {
         
-                Cipher c = Cipher.getInstance(ALGORITHM_NAME + "/" + MODE_OF_OPERATION_WHICH_MEANS_NONE + "/" + PADDING_SCHEME) ;
+                Cipher c = Cipher.getInstance(ALGORITHM_NAME + "/" + MODE_OF_OPERATION + "/" + PADDING_SCHEME) ;
 
                 c.init(Cipher.ENCRYPT_MODE, publicKey) ;
 
@@ -52,7 +52,7 @@ public class SecuredRSAUsage {
 
 
         public static String rsaDecrypt(byte[] encryptedMessage, Key privateKey) throws Exception {
-                Cipher c = Cipher.getInstance(ALGORITHM_NAME + "/" + MODE_OF_OPERATION_WHICH_MEANS_NONE+ "/" + PADDING_SCHEME) ;
+                Cipher c = Cipher.getInstance(ALGORITHM_NAME + "/" + MODE_OF_OPERATION + "/" + PADDING_SCHEME) ;
                 c.init(Cipher.DECRYPT_MODE, privateKey);
                 byte[] plainText = c.doFinal(encryptedMessage);
 
