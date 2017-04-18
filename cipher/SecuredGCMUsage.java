@@ -29,7 +29,7 @@ public class SecuredGCMUsage {
         public static void main(String args[]) {
                 String messageToEncrypt = args[0] ;
                 
-                byte[] aadData = "random".getBytes() ; // Any random data will can be used as tag. Some common examples could be domain name...
+                byte[] aadData = "random".getBytes() ; // Any random data can be used as tag. Some common examples could be domain name...
 
                 // Use different key+IV pair for encrypting/decrypting different parameters
 
@@ -54,7 +54,7 @@ public class SecuredGCMUsage {
                 
                 System.out.println("Encrypted Text = " + Base64.getEncoder().encodeToString(encryptedText) ) ;
 
-                byte[] decryptedText = aesDecrypt(encryptedText, aesKey, gcmParamSpec, aadData) ; // Same key and IV for decryption as used for encryption.
+                byte[] decryptedText = aesDecrypt(encryptedText, aesKey, gcmParamSpec, aadData) ; // Same key, IV and GCM Specs for decryption as used for encryption.
 
                 System.out.println("Decrypted text " + new String(decryptedText)) ;
 
