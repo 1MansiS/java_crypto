@@ -15,6 +15,7 @@ import java.security.GeneralSecurityException ;
 
 /*
         This class shows how to use PBKDF2 based password generation.
+        Recommended way of storing passwords in databases. Also called as password stretching
 */
 public class SecurePBKDFUsage {
 
@@ -25,7 +26,7 @@ public class SecurePBKDFUsage {
 
         public static void main(String args[]) {
 
-                // String are immutatble, so there is no way to change/nullify/modify its content after use. So always, collect and store security sensitive information in a char array instead. 
+                // Strings are immutatable, so there is no way to change/nullify/modify its content after use. So always, collect and store security sensitive information in a char array instead. 
                 char[] PASSWORD = args[0].toCharArray() ; 
 
                 String hashedPassword = null ;
