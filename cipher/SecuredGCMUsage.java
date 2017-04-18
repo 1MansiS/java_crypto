@@ -29,7 +29,7 @@ public class SecuredGCMUsage {
         public static void main(String args[]) {
                 String messageToEncrypt = args[0] ;
                 
-                byte[] aadData = "random".getBytes() ;
+                byte[] aadData = "random".getBytes() ; // Any random data will can be used as tag. Some common examples could be domain name...
 
                 // Use different key+IV pair for encrypting/decrypting different parameters
 
