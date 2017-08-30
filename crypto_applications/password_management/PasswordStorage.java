@@ -27,8 +27,6 @@ public class PasswordStorage {
                 } catch(GeneralSecurityException genSecExc) {System.out.println(genSecExc.getMessage() + " " + genSecExc.getCause() ) ; System.exit(1) ; }      
                                 
                 storeSaltAndEncryptedPassword(saltedStretchedPassword, salt ) ;         
-                
-                
         }
         
         
@@ -44,9 +42,6 @@ public class PasswordStorage {
         // Salt would be unique to each user. It can be non-secret value, so can co-exist with encrypted password.
         public static boolean storeSaltAndEncryptedPassword(byte[] encryptedPassword, byte[] salt) {
                 System.out.println("Password = " + pwdMgmtUtils.returnStringRep(encryptedPassword) + " and corresponding salt = " + pwdMgmtUtils.returnStringRep(salt) + " stored in credentials database ");
-                //System.out.println("Decoded password = " + new String(encryptedPassword) + " decoded salt = " + new String(salt));
                 return true;
         }
-        
-        
 }
