@@ -15,6 +15,11 @@ import java.security.spec.KeySpec;
 import java.util.regex.Pattern;
 
 public class DataEncryption {
+
+    public static final String ALGORITHM = "PBEWITHHMACSHA512ANDAES_128";
+    public static final String IV_SEPARATOR = "$";
+    public static final int ITERATION_COUNT = 200000;
+
     public static void main(String[] args) {
         if (args.length < 3) {
             System.err.println("Missing arguments. Usage: java DataEncryption encrypt password salt < file");
@@ -46,9 +51,9 @@ public class DataEncryption {
         PasswordManagementUtils utils = new PasswordManagementUtils();
 
         KeySpec spec = new PBEKeySpec(password);
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBEWithHmacSHA512AndAES_128");
+        SecretKeyFactory factory = SecretKeyFactory.getInstance(ALGORITHM);
         SecretKey tmp = factory.generateSecret(spec);
-        SecretKeySpec secret = new SecretKeySpec(tmp.getEncoded(), "PBEWithHmacSHA512AndAES_128");
+        SecretKeySpec secret = new SecretKeySpec(tmp.getEncoded(), ALGORITHM);
 
         byte iv[] = new byte[16];
 
@@ -57,18 +62,18 @@ public class DataEncryption {
 
         IvParameterSpec randomIvSpec = new IvParameterSpec(iv) ;
 
-        PBEParameterSpec pbeSpec = new PBEParameterSpec(salt.getBytes(), 4096, randomIvSpec);
-        Cipher c = Cipher.getInstance("PBEWITHHMACSHA512ANDAES_128");
+        PBEParameterSpec pbeSpec = new PBEParameterSpec(salt.getBytes(), ITERATION_COUNT, randomIvSpec);
+        Cipher c = Cipher.getInstance(ALGORITHM);
         c.init(Cipher.ENCRYPT_MODE, secret, pbeSpec);
         byte[] encrypted = c.doFinal(data.getBytes());
 
-        return utils.returnStringRep(encrypted) + "$" + utils.returnStringRep(iv);
+        return utils.returnStringRep(encrypted) + IV_SEPARATOR + utils.returnStringRep(iv);
     }
 
     private static String decrypt(String data, char[] password, String salt) throws GeneralSecurityException {
         PasswordManagementUtils utils = new PasswordManagementUtils();
 
-        String[] dataParts = data.split(Pattern.quote("$"));
+        String[] dataParts = data.split(Pattern.quote(IV_SEPARATOR));
         if (dataParts.length != 2) {
             throw new GeneralSecurityException("Data does not contain IV?");
         }
@@ -76,13 +81,13 @@ public class DataEncryption {
         byte[] iv = utils.returnByteArray(dataParts[1].trim());
 
         KeySpec spec = new PBEKeySpec(password);
-        SecretKeyFactory factory = SecretKeyFactory.getInstance("PBEWithHmacSHA512AndAES_128");
+        SecretKeyFactory factory = SecretKeyFactory.getInstance(ALGORITHM);
         SecretKey tmp = factory.generateSecret(spec);
-        SecretKeySpec secret = new SecretKeySpec(tmp.getEncoded(), "PBEWithHmacSHA512AndAES_128");
+        SecretKeySpec secret = new SecretKeySpec(tmp.getEncoded(), ALGORITHM);
 
         IvParameterSpec ivSpec = new IvParameterSpec(iv);
-        PBEParameterSpec pbeSpec = new PBEParameterSpec(salt.getBytes(), 4096, ivSpec);
-        Cipher c = Cipher.getInstance("PBEWITHHMACSHA512ANDAES_128");
+        PBEParameterSpec pbeSpec = new PBEParameterSpec(salt.getBytes(), ITERATION_COUNT, ivSpec);
+        Cipher c = Cipher.getInstance(ALGORITHM);
         c.init(Cipher.DECRYPT_MODE, secret, pbeSpec);
 
         return new String(c.doFinal(encrypted));
