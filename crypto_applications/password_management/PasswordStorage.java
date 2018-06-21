@@ -1,4 +1,4 @@
-package crypto_usecases.password_management ;
+package crypto_applications.password_management ;
 
 import java.security.GeneralSecurityException;
 import java.security.NoSuchAlgorithmException;
